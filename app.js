@@ -1,6 +1,7 @@
 const express = require("express")
 const pool  = require("./config/db")
 const app = express()
+// const testRouters= require("./routers/testRouters")
 
 const dotenv = require("dotenv")
 
@@ -24,6 +25,8 @@ pool.connect((err, client, release)=>{
     
     
 })
+
+// app.use("", testRouters)
 
 
 
