@@ -11,7 +11,10 @@ app.use(express.json())
 
 pool.connect((err, client, release)=>{
     if(err){
+
         console.error("couldn't connect to the database", err.stack)
+
+        return
        
     } 
 
