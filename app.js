@@ -2,6 +2,7 @@ const express = require("express")
 const pool  = require("./config/db")
 const app = express()
 const sequelize = require("./config/db")
+const models = require("./models/index")
 
 
 const dotenv = require("dotenv")
