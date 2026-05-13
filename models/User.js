@@ -24,7 +24,14 @@ const User = sequelize.define("User", {
     role:{
         type:DataTypes.ENUM("Buyer", "Seller", "Admin"),
         defaultValue:"Seller"
-    }
+    },
+    verification_token: {
+    type: DataTypes.STRING
+},
+
+verification_token_expires: {
+    type: DataTypes.DATE
+}
 
 })
 
