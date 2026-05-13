@@ -25,8 +25,18 @@ const User = sequelize.define("User", {
         type:DataTypes.ENUM("Buyer", "Seller", "Admin"),
         defaultValue:"Seller"
     },
+
+
     refresh_token: {
     type: DataTypes.TEXT
+},
+
+reset_password_token: {
+    type: DataTypes.STRING
+},
+
+reset_password_expires: {
+    type: DataTypes.DATE
 },
     verification_token: {
     type: DataTypes.STRING
