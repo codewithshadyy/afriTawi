@@ -5,7 +5,7 @@ const {signUp,signIn} = require("../controllers/userController")
 const {validateSignUp,} = require("../middlewares/validators/authValidator")
 
 router.post("/signUp",validateSignUp, signUp)
-router.post("signIn", signIn)
+router.post("/signIn", signIn)
 
 
 

@@ -2,7 +2,7 @@ const User = require("../models/User")
 const jwt = require("jsonwebtoken")
 
 
-exports.accessToken = async (user) => {
+exports.accessToken = (user) => {
 
     return jwt.sign(
         {

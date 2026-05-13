@@ -1,6 +1,6 @@
 
 const User = require("../models/User")
-const {accessToken,generateRefreshToken} = require("../utils/generateToken")
+const { accessToken,generateRefreshToken } = require("../utils/generateToken")
 const bcrypt = require("bcrypt")
 const { Op, where } = require("sequelize")
 
@@ -84,12 +84,12 @@ exports.signIn = async (req,res) => {
         }
 
 
-        const accesToken = accessToken(user)
+        const token = accessToken(user)
         const refreshToken = generateRefreshToken(user)
 
         res.status(200).json({
             message: `welcome back ${user.username}`,
-            accessToken,
+            token,
             refreshToken
         })
 
