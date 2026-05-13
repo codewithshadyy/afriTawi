@@ -1,5 +1,6 @@
-
+const crypto = require("crypto")
 const User = require("../models/User")
+const {sendEmail} = require("../utils/sendEmail")
 const { accessToken,generateRefreshToken } = require("../utils/generateToken")
 const bcrypt = require("bcrypt")
 const { Op, where } = require("sequelize")
@@ -34,17 +35,51 @@ exports.signUp = async (req,res) => {
         password:hashedPassword
     })
 
-    const token = accessToken(user)
+    const verificationToken = crypto
+    .randomBytes(32)
+    .toString("hex")
+
+
+
+    user.verification_token = verificationToken
+
+    user.verification_token_expires =
+    Date.now() + 1000 * 60 * 60
+
+
+    await user.save()
+
+
+    const verificationURL =`http://localhost:4545/api/v1/users/verify/${verificationToken}`
+
+    await sendEmail(
+
+    user.email,
+
+    "Verify Your Account",
+
+    `
+        <h2>Email Verification</h2>
+
+        <p>Click below to verify your account:</p>
+
+        <a href="${verificationURL}">
+            Verify Account
+        </a>
+    `
+)
+
+
+   
 
 
     res.status(201).json({
-        success:true,
-       data:{
-         id:user.id,
-        message:`welcome ${user.username}!!!`,
-        role:user.role
-       }
-    })
+
+    success:true,
+
+    message:"Account created. Please verify your email."
+
+})
         
     } catch (error) {
 
@@ -59,6 +94,77 @@ exports.signUp = async (req,res) => {
 }
 
 
+exports.verifyEmail = async(req,res) =>{
+    try {
+
+        const {token} =req.params
+        const user = await User.findOne({
+            where:{
+
+                verification_token: token
+            }
+        })
+
+        if(!user){
+
+            return res.status(400).json({
+
+                success:false,
+
+                message:"Invalid token"
+
+            })
+        }
+
+           if (
+            user.verification_token_expires <
+            Date.now()
+        ) {
+
+            return res.status(400).json({
+
+                success:false,
+
+                message:"Token expired"
+
+            })
+
+        }
+
+        user.status = "verified"
+
+        user.verification_token = null
+
+        user.verification_token_expires = null
+
+
+
+        await user.save()
+
+
+
+        res.status(200).json({
+
+            success:true,
+
+            message:"Email verified successfully"
+
+        })
+
+        
+    } catch (error) {
+
+        res.status(500).json({
+            success:false,
+            message:error.message
+        }
+        )
+        
+    }
+}
+
+
+
 exports.signIn = async (req,res) => {
     try {
         const {username, password} = req.body
@@ -70,6 +176,17 @@ exports.signIn = async (req,res) => {
                 message:"Username not found!!!"
             })
         }
+        if(user.status !== "verified"){
+
+    return res.status(401).json({
+
+        success:false,
+
+        message:"Please verify your email"
+
+    })
+
+}
 
         const isMatch = await bcrypt.compare(password, user.password)
 
