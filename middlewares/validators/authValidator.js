@@ -34,3 +34,31 @@ exports.validateSignUp = [
     }
 ]
 
+
+exports.validatePasswordReset = [
+
+    body("password")
+    .isLength({ min: 6 })
+    .withMessage("Password must be at least 6 characters"),
+
+    async (req,res,next) => {
+
+        const errors = validationResult(req)
+
+        if(!errors.isEmpty()){
+            res.status(200).json({
+                success: false,
+                errors: errors.array()
+            })
+        }
+
+        next()
+
+    
+
+
+        
+    }
+
+]
+
