@@ -25,6 +25,9 @@ const User = sequelize.define("User", {
         type:DataTypes.ENUM("Buyer", "Seller", "Admin"),
         defaultValue:"Seller"
     },
+    refresh_token: {
+    type: DataTypes.TEXT
+},
     verification_token: {
     type: DataTypes.STRING
 },
