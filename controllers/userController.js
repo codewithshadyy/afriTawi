@@ -1,8 +1,8 @@
 
 const User = require("../models/User")
-const {accessToken} = require("../utils/generateToken")
+const {accessToken,generateRefreshToken} = require("../utils/generateToken")
 const bcrypt = require("bcrypt")
-const { Op } = require("sequelize")
+const { Op, where } = require("sequelize")
 
 
 exports.signUp = async (req,res) => {
@@ -53,6 +53,63 @@ exports.signUp = async (req,res) => {
             message:error.message,
            
         })
+        
+    }
+    
+}
+
+
+exports.signIn = async (req,res) => {
+    try {
+        const {username, password} = req.body
+        const user = await User.findOne({where:{username}})
+
+        if(!user){
+            res.status(404).json({
+                success:false,
+                message:"Username not found!!!"
+            })
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password)
+
+        if(!isMatch){
+            res.status(401).json({
+                message:"Invalid Credentials"
+            })
+
+
+
+
+        }
+
+
+        const accesToken = accessToken(user)
+        const refreshToken = generateRefreshToken(user)
+
+        res.status(200).json({
+            message: `welcome back ${user.username}`,
+            accessToken,
+            refreshToken
+        })
+
+        
+
+
+        
+
+
+
+        
+    } catch (error) {
+
+          res.status(500).json({
+            success:false,
+            message:error.message,
+           
+        })
+        
+
         
     }
     
