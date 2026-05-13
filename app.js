@@ -3,7 +3,7 @@ const pool  = require("./config/db")
 const app = express()
 const sequelize = require("./config/db")
 const models = require("./models/index")
-
+const UserRoutes = require("./routers/userRoutes")
 
 const dotenv = require("dotenv")
 
@@ -22,6 +22,8 @@ sequelize.sync({alter:true})
 .catch((err) => {
         console.log(err)
     })
+
+    app.use("/api/v1/users", UserRoutes)
 
 
 
