@@ -279,3 +279,73 @@ exports.logout = async (req,res) => {
     }
     
 }
+
+
+
+exports.forgotPassword = async (req,res) => {
+
+    try {
+
+        const {email}   = req.params
+        const user = await User.findOne({
+            where: { email }
+        })
+
+        if(!user){
+            res.status(404).json({
+                success:false,
+                message:"Invalid email check again and try"
+            })
+        }
+
+        const resetToken = crypto
+        .randomBytes(32)
+        .toString("hex")
+
+        user.reset_password_token = resetToken
+
+        user.reset_password_expires = Date.now() + 1000 * 60 * 60
+
+        await user.save()
+
+        const resetUrl = `http://localhost:{process.env.PORT}/api/v1/users/reset-password/${resetToken}`
+
+        await sendEmail(
+
+            user.email,
+
+            "Password Reset",
+
+            `
+                <h2>Password Reset</h2>
+
+                <p>
+                    Click below to reset password
+                </p>
+
+                <a href="${resetUrl}">
+                    Reset Password
+                </a>
+            `
+        )
+
+
+            res.status(200).json({
+
+            success: true,
+
+            message:"Email sent successfully"
+
+        })
+
+
+        
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:message.error
+        })
+        
+    }
+    
+}
