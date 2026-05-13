@@ -286,7 +286,7 @@ exports.forgotPassword = async (req,res) => {
 
     try {
 
-        const {email}   = req.params
+        const {email}   = req.body
         const user = await User.findOne({
             where: { email }
         })
@@ -308,7 +308,7 @@ exports.forgotPassword = async (req,res) => {
 
         await user.save()
 
-        const resetUrl = `http://localhost:{process.env.PORT}/api/v1/users/reset-password/${resetToken}`
+        const resetUrl = `http://localhost:4545/api/v1/users/reset-password/${resetToken}`
 
         await sendEmail(
 
@@ -343,8 +343,104 @@ exports.forgotPassword = async (req,res) => {
     } catch (error) {
         res.status(500).json({
             success:false,
-            message:message.error
+            message:error.message
+        })  
+    }
+    
+}
+
+
+
+exports.resetPassword = async (req,res) => {
+
+    try {
+
+        const {token} = req.params
+        const {password} = req.body
+
+
+        const user = await User.findOne({
+
+            where: {
+
+                reset_password_token: token
+
+            }
+
         })
+
+
+
+        if (!user) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message: "Invalid token"
+
+            })
+
+        }
+
+
+          if (
+            user.reset_password_expires <
+            Date.now()
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message: "Token expired"
+
+            })
+
+        }
+
+        const hashedPassword =
+            await bcrypt.hash(password, 10)
+
+
+
+    
+        user.password = hashedPassword
+
+
+
+        
+        user.reset_password_token = null
+
+        user.reset_password_expires = null
+
+
+
+        await user.save()
+
+
+
+        res.status(200).json({
+
+            success: true,
+
+            message:
+              "Password was reseted successful"
+
+        })
+
+
+
+
+        
+    } catch (error) {
+
+          res.status(500).json({
+            success:false,
+            message:error.message
+        })
+
+
         
     }
     
