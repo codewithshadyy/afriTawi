@@ -2,13 +2,14 @@
 const User = require("../models/User")
 const {accessToken} = require("../utils/generateToken")
 const bcrypt = require("bcrypt")
+const { Op } = require("sequelize")
 
 
 exports.signUp = async (req,res) => {
 
     try {
 
-    const {email, username, password} = req.body
+    const {email, username,role, password} = req.body
 
       const userExists = await User.findOne({
             where: {
@@ -29,6 +30,7 @@ exports.signUp = async (req,res) => {
     const user = await User.create({
         email,
         username,
+        role,
         password:hashedPassword
     })
 
@@ -37,9 +39,11 @@ exports.signUp = async (req,res) => {
 
     res.status(201).json({
         success:true,
-        id:user.id,
-        message:`welcome ${user.username}`,
+       data:{
+         id:user.id,
+        message:`welcome ${user.username}!!!`,
         role:user.role
+       }
     })
         
     } catch (error) {
