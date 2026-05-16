@@ -449,13 +449,7 @@ exports.resetPassword = async (req,res) => {
 exports.viewUsers =   async (req,res) => {
 
     try {
-          const users = await User.findAll({
-            where:{
-                username,
-                email,
-                role
-            }
-          })
+          const users = await User.findAll()
 
           if(!users){
             return res.status(400).json({message:"bad request"})
