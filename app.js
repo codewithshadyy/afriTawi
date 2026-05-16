@@ -23,7 +23,7 @@ sequelize.sync({alter:true})
         console.log(err)
     })
 
-    app.use("/api/v1/users", UserRoutes)
+    app.use("/api/v1/auth", UserRoutes)
 
 
 
