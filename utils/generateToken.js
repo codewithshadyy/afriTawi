@@ -12,7 +12,7 @@ exports.accessToken = (user) => {
 
         process.env.JWT_SECRET,
 
-         {expiresIn:"15m"}
+         {expiresIn:"7d"}
         
         
         )
