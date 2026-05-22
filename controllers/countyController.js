@@ -103,7 +103,7 @@ exports.deleteCounty = async (req,res) => {
 }
 
 
-exports.seeCounty = async (req,res) => {
+exports.getCounty = async (req,res) => {
 
     try {
           const page = parseInt(req.query.page) || 1
