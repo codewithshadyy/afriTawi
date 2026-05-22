@@ -11,7 +11,7 @@ router.get("/verify/:token", verifyEmail)
 router.post("/logout",protect, logout)
 router.post("/forgot-password", forgotPassword)
 router.post("/reset-password/:token",validatePasswordReset,resetPassword )
-router.get("/view-users", viewUsers)
+router.get("/users", viewUsers)
 
 
 

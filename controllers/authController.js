@@ -50,7 +50,7 @@ exports.signUp = async (req,res) => {
     await user.save()
 
 
-    const verificationURL =`http://localhost:4545/api/v1/users/verify/${verificationToken}`
+    const verificationURL =`http://localhost:4545/api/v1/auth/verify/${verificationToken}`
 
     await sendEmail(
 
@@ -61,7 +61,7 @@ exports.signUp = async (req,res) => {
     `
         <h2>Email Verification</h2>
 
-        <p>Click below to verify your account:</p>
+    <p>Click below to confirm account verification verify:</p>
 
         <a href="${verificationURL}">
             Verify Account
@@ -77,7 +77,7 @@ exports.signUp = async (req,res) => {
 
     success:true,
 
-    message:"Account created. Please verify your email."
+    message:"Account created. An email has been send to your gmail inbox.Kindly verify it's you.."
 
 })
         
@@ -308,13 +308,13 @@ exports.forgotPassword = async (req,res) => {
 
         await user.save()
 
-        const resetUrl = `http://localhost:4545/api/v1/users/reset-password/${resetToken}`
+        const resetUrl = `http://localhost:4545/api/v1/auth/reset-password/${resetToken}`
 
         await sendEmail(
 
             user.email,
 
-            "Password Reset",
+            "Password Password",
 
             `
                 <h2>Password Reset</h2>
@@ -446,17 +446,36 @@ exports.resetPassword = async (req,res) => {
     
 }
 
-exports.viewUsers =   async (req,res) => {
+exports.viewUsers = async (req,res) => {
 
     try {
-          const users = await User.findAll()
 
-          if(!users){
-            return res.status(400).json({message:"bad request"})
-          }
+     const {status, page=1, limit=1}= req.query
 
-          res.status(200).json(users)
+     const pageNum = parseInt(page, 1)
+     const limitNum = parseInt(limit,1)
+     const offset = parseInt(pageNum -1) * limitNum
 
+     const whereCondition = {}
+
+     const {count, rows: users} = await User.findAndCountAll({
+        where:whereCondition,
+        limit:limitNum,
+        offset:offset,
+        order:[["createdAt", "DESC"]]
+     })
+
+      if (users.length === 0) {
+        return res.status(404).json({ message: "No users found on this page" });
+    }
+
+      res.status(200).json({
+        totalItems: count,
+        totalPages: Math.ceil(count / limitNum),
+        currentPage: pageNum,
+        itemsPerPage: limitNum,
+        users
+    });
 
         
     } catch (error) {
@@ -465,3 +484,4 @@ exports.viewUsers =   async (req,res) => {
     }
     
 }
+
