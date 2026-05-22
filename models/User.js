@@ -44,6 +44,10 @@ reset_password_expires: {
 
 verification_token_expires: {
     type: DataTypes.DATE
+},
+isBlackListed:{
+    type:DataTypes.BOOLEAN,
+    defaultValue:false
 }
 
 })
