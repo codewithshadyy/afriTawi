@@ -38,3 +38,30 @@ exports.createCounty = async (req,res) => {
     }
     
 }
+
+exports.editCounty = async (req,res) => {
+
+    try {
+         const countyExists = await County.findByPk(req.params.id)
+
+         if(!countyExists){
+            res.status(404).json({message:"County not found"})
+         }
+
+         const county = await County.update()
+         await county.save()
+       
+         res.status(200).json({
+            success:true,
+            data:county
+            
+         })
+
+        
+    } catch (error) {
+
+        res.status(500).json({message:error.message})
+        
+    }
+    
+}
