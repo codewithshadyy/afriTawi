@@ -4,11 +4,12 @@ const {where, Op} = require("sequelize")
 
 exports.createCounty = async (req,res) => {
     try {
-       const {name} = req.body
+       const {name, code} = req.body
        const countyExists = await County.findOne({
         where:{
             [Op.or]:[
-                {name}
+                {name},
+                {code}
             ]
         }
        })
@@ -17,8 +18,11 @@ exports.createCounty = async (req,res) => {
         res.status(400).json({message:`Sorry ${name} already created`})
        }
 
+
+       
        const county = await County.create({
-        name
+        name,
+        code
        })
 
        res.status(201).json({

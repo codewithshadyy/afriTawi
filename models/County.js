@@ -8,6 +8,11 @@ const County = sequelize.define("County", {
         type: DataTypes.STRING,
         unique: true,
         allowNull: false
+    },
+    code:{
+        type:DataTypes.INTEGER,
+        unique:true,
+        allowNull:true
     }
 })
 

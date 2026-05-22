@@ -4,6 +4,7 @@ exports.validateSignUp = [
     body("email")
     .isEmail()
     .withMessage("A valid email is required"),
+    
 
 
 
