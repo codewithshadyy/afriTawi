@@ -70,3 +70,34 @@ exports.editCounty = async (req,res) => {
     }
     
 }
+
+
+exports.deleteCounty = async (req,res) => {
+
+    try {
+         const county = await County.findByPk(req.params.id)
+         if(!county){
+            res.status(404).json({message:"county not found"})
+         }
+
+         await county.destroy()
+
+         res.json(200).json({
+            success:true,
+            message:`county ${county.name} deleted`
+         })
+
+         
+       
+
+        
+    } catch (error) {
+
+        res.status(500).json({
+            success:false,
+            message:error.message
+        })
+        
+    }
+    
+}
