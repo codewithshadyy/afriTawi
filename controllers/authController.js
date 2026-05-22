@@ -450,16 +450,27 @@ exports.viewUsers = async (req,res) => {
 
     try {
 
-     const {status, page=1, limit=1}= req.query
+     const {status, page, limit}= req.query
 
-     const pageNum = parseInt(page, 1)
-     const limitNum = parseInt(limit,1)
-     const offset = parseInt(pageNum -1) * limitNum
+     const pageNum = parseInt(page) || 0
+     const limitNum = parseInt(limit) || 10
+
+    const safePage = pageNum < 1 ? 1 : pageNum;
+    const safeLimit = limitNum < 1 ? 10 : limitNum
+
+     const offset = parseInt(safePage -1) * limitNum
 
      const whereCondition = {}
 
+     if (status) {
+        whereCondition.status = status;
+    }
+
      const {count, rows: users} = await User.findAndCountAll({
         where:whereCondition,
+        attributes:{
+            exclude:["password", "refresh_token", "verification_token", "verification_token_expires", "reset_password_token", "reset_password_expires"]
+        },
         limit:limitNum,
         offset:offset,
         order:[["createdAt", "DESC"]]
