@@ -22,11 +22,11 @@ exports.createCounty = async (req,res) => {
        
        const county = await County.create({
         name,
-        code
+        code:"0" +`${code}`
        })
 
        res.status(201).json({
-        message:"county ${county.name} created",
+        message:`county ${county.name} created`,
         county
        })
 

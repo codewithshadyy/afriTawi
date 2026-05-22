@@ -11,7 +11,7 @@ exports.adminOnly = async (req, res, next) => {
 
 
 
-        if (req.user.role !== "admin") {
+        if (req.user.role !== "Admin") {
             return res.status(403).json({
                 success: false,
                 message: "Admins only"
@@ -51,7 +51,7 @@ exports.sellersOnly = async (req, res, next) => {
 
 
 
-        if (req.user.role !== "seller") {
+        if (req.user.role !== "Seller") {
             return res.status(403).json({
                 success: false,
                 message: "Sellers only"
