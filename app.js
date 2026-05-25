@@ -27,7 +27,7 @@ sequelize.sync({alter:true})
 
     app.use("/api/v1/auth", UserRoutes)
     app.use("/api/v1/county", countyRoutes)
-    app.use("/api/v1/caregories")
+    app.use("/api/v1/caregories", categoryRoutes)
 
 
 
