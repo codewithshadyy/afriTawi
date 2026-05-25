@@ -5,6 +5,6 @@ const {createCategory} = require("../controllers/categoryController")
 const {protect} = require("../middlewares/protect")
 const {adminOnly} = require("../middlewares/authorizeRole")
 
-router.post("/categories", protect, adminOnly, createCategory)
+router.post("/add", protect, adminOnly, createCategory)
 
 

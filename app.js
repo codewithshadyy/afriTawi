@@ -5,6 +5,7 @@ const sequelize = require("./config/db")
 const models = require("./models/index")
 const UserRoutes = require("./routes/authRoutes")
 const countyRoutes = require("./routes/countyRoutes")
+const categoryRoutes = require("./routes/categoryRoutes")
 
 const dotenv = require("dotenv")
 
@@ -26,6 +27,7 @@ sequelize.sync({alter:true})
 
     app.use("/api/v1/auth", UserRoutes)
     app.use("/api/v1/county", countyRoutes)
+    app.use("/api/v1/caregories")
 
 
 
