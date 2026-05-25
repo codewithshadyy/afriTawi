@@ -62,6 +62,29 @@ exports.listCategory = async (req,res) => {
     
 }
 
+exports.findCategoryById = async (req,res) => {
+
+    
+    try {
+
+        const category = await Category.findByPk(req.params.id)
+
+        if(!category){
+            res.status(404).json({message:"Category not found"})
+        }
+
+        res.status(200).json({
+            success:true,
+            data:category
+        })
+        
+    } catch (error) {
+
+        res.status(500).json({message:error.message})
+        
+    }
+}
+
 
 exports.editCategory = async (req,res) => {
 
