@@ -17,7 +17,7 @@ exports.validateCounty  = [
         const errors = validationResult(req)
 
         if(!errors.isEmpty()){
-            res.status(200).json({
+            res.status(400).json({
                 success: false,
                 errors: errors.array()
             })

@@ -8,3 +8,11 @@ const {adminOnly} = require("../middlewares/authorizeRole")
 router.post("/add", protect, adminOnly, createCategory)
 
 
+
+
+
+
+
+module.exports = router
+
+
