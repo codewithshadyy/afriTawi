@@ -3,8 +3,8 @@ const {body,validationResult} = require("express-validator")
 
 exports.validateCategory = [
     body("name")
-    .notEmpty()
     .toUpperCase()
+    .notEmpty()
     .withMessage("Invalid name"),
 
 

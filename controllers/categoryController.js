@@ -9,11 +9,9 @@ exports.createCategory = async (req,res) => {
         const {name} = req.body 
         const categoryExists = await Category.findOne({
             where:{
-            [where.Op]:[
-                {name}
-            ]
-            }
-        })
+                name
+          
+        }})
 
         if(categoryExists){
             res.status(400).json({message:"Category exists"})
