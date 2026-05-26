@@ -6,3 +6,6 @@ const {protect} = require("../middlewares/protect")
 
 
 router.post("/create",protect,createProfile )
+
+
+module.exports = router
