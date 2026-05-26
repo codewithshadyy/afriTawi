@@ -3,12 +3,12 @@ const Profile = require("../models/Profile")
 const County  = require("../models/County")
 
 
-exports.CreateProfile = async (req,res) => {
+exports.createProfile = async (req,res) => {
     try {
 
     const { phone_number,bio,avatar_url,county_id} =req.body
 
-    const County = await County.findByPk(county_id)
+    const county = await County.findByPk(county_id)
 
     if(!County){
         res.status(404).json({
@@ -23,7 +23,7 @@ exports.CreateProfile = async (req,res) => {
         }
     })
 
-     if (existingProfile) {
+     if (ExistingProfile) {
 
             return res.status(400).json({
 
@@ -44,7 +44,7 @@ exports.CreateProfile = async (req,res) => {
             user_id:req.user.id
         })
 
-        res.sta(201).json({
+        res.status(201).json({
             success:true,
             message:"Profile created successfully",
             profile
@@ -57,3 +57,41 @@ exports.CreateProfile = async (req,res) => {
     }
     
 } 
+
+
+exports.listProfiles = async (req,res) => {
+
+    try {
+
+        const page = parseInt(req.params.page) || 1
+        const limit = parseInt(req.params.limit) || 10
+        const offset = (page -1) * limit
+
+        const  {count, rows} = await Profile.findAndCountAll({
+            limit,
+            offset,
+            order:[["createdAt", "DESC"]]
+        })
+
+        res.status(200).json({
+
+            success:true,
+            totalItems:count,
+            totalPages:Math.ceil(count / limit),
+            currentPage:page,
+            data:rows
+        })
+
+
+
+        
+    } catch (error) {
+
+        res.status(500).json({
+            success:false,
+            message:error.message
+        })
+        
+    }
+    
+}
