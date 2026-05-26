@@ -128,15 +128,51 @@ exports.findProfileById = async (req,res) => {
             })
            }
 
+           
+
            res.status(200).json({
             success:true,
             profile
+            
            })
         
         
     } catch (error) {
 
         res.status(500).json({message:error.message})
+        
+    }
+    
+}
+
+
+exports.editProfile = async (req,res) => {
+
+    try {
+
+        const {phone_number,bio,avatar_url,county_id} = req.body
+        const profile = await Profile.findByPk(req.params.id)
+        
+        if(!profile){
+            res.status(404).json({message:"Profile not found!!!"})
+        }
+
+        if(profile.user_id != req.user.id){
+            res.status(403).json({message:"Cannot edit profile"})
+        }
+
+        await profile.update({
+            phone_number,
+            bio,
+            avatar_url,
+            county_id
+        })
+
+        profile.save()
+        
+    } catch (error) {
+
+        res.status(500).json({error:error.message})
         
     }
     
