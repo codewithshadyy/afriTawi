@@ -2,12 +2,22 @@
 const Profile = require("../models/Profile")
 const County  = require("../models/County")
 const { User } = require("../models")
+const{uploadToCloudinary} = require("../utils/uploadToCloudinary")
 
 
 exports.createProfile = async (req,res) => {
     try {
 
     const { phone_number,bio,avatar_url,county_id} =req.body
+
+
+
+    let avatar_url = null
+
+    if(req.file){
+        const result = await uploadToCloudinary(req.file.buffer)
+        avatar_url = result.secure_url
+    }
 
     const county = await County.findByPk(county_id)
 
