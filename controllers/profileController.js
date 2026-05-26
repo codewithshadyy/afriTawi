@@ -8,7 +8,7 @@ const{uploadToCloudinary} = require("../utils/uploadToCloudinary")
 exports.createProfile = async (req,res) => {
     try {
 
-    const { phone_number,bio,avatar_url,county_id} =req.body
+    const { phone_number,bio,county_id} =req.body
 
 
 
@@ -160,8 +160,10 @@ exports.editProfile = async (req,res) => {
 
     try {
 
-        const {phone_number,bio,avatar_url,county_id} = req.body
+        const {phone_number,bio,county_id} = req.body
         const profile = await Profile.findByPk(req.params.id)
+
+        
         
         if(!profile){
             res.status(404).json({message:"Profile not found!!!"})
@@ -170,7 +172,11 @@ exports.editProfile = async (req,res) => {
         if(profile.user_id != req.user.id){
             res.status(403).json({message:"Cannot edit profile"})
         }
-
+        let avatar_url = null
+        if(req.file){
+            const result = await uploadToCloudinary(req.file.buffer)
+            avatar_url = result.secure_url
+        }
         await profile.update({
             phone_number,
             bio,
