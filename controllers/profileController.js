@@ -119,7 +119,19 @@ exports.listProfiles = async (req,res) => {
 exports.findProfileById = async (req,res) => {
 
     try {
+           const profile = await Profile.findByPk(req.params.id)
 
+           if(!profile){
+            res.status(404).json({
+                success:false,
+                message:"Profile not  found"
+            })
+           }
+
+           res.status(200).json({
+            success:true,
+            profile
+           })
         
         
     } catch (error) {
