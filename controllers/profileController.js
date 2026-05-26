@@ -1,6 +1,7 @@
 
 const Profile = require("../models/Profile")
 const County  = require("../models/County")
+const { User } = require("../models")
 
 
 exports.createProfile = async (req,res) => {
@@ -70,7 +71,25 @@ exports.listProfiles = async (req,res) => {
         const  {count, rows} = await Profile.findAndCountAll({
             limit,
             offset,
-            order:[["createdAt", "DESC"]]
+            order:[["createdAt", "DESC"]],
+
+        
+
+            include:[
+                {
+
+                model:User,
+                attributes:["id", "username","email" ]
+                },
+
+             {
+                model:County,
+                attributes:["id", "name", "code"]
+             }
+        ],
+            attributes:{
+                exclude:["user_id", "county_id"]
+            }
         })
 
         res.status(200).json({
@@ -91,6 +110,21 @@ exports.listProfiles = async (req,res) => {
             success:false,
             message:error.message
         })
+        
+    }
+    
+}
+
+
+exports.findProfileById = async (req,res) => {
+
+    try {
+
+        
+        
+    } catch (error) {
+
+        res.status(500).json({message:error.message})
         
     }
     
