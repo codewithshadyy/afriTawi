@@ -168,7 +168,7 @@ exports.editProfile = async (req,res) => {
             county_id
         })
 
-       await  profile.save()
+         profile.save()
 
         res.status(200).json({
             success:true,
