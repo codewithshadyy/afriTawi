@@ -1,7 +1,7 @@
 
 const express = require("express")
 const router = express.Router()
-const {  createProfile, listProfiles, findProfileById, editProfile } = require("../controllers/profileController")
+const {  createProfile, listProfiles, findProfileById, editProfile, deleteProfile } = require("../controllers/profileController")
 const {protect} = require("../middlewares/protect")
 const {upload} = require("../middlewares/upload")
 
@@ -10,6 +10,7 @@ router.post("/create",protect,upload.single("avatar"), createProfile)
 router.get("/list", protect, listProfiles)
 router.get("/list/:id", protect, findProfileById)
 router.put("/edit/:id", protect, upload.single("avatar"), editProfile)
+router.delete("/delete/:id", protect, deleteProfile)
 
 
 module.exports = router

@@ -12,29 +12,33 @@ exports.createProfile = async (req,res) => {
 
 
 
-    let avatar_url = null
-
+    
+   let avatar_url = null
     if(req.file){
+
+
+         
         const result = await uploadToCloudinary(req.file.buffer)
         avatar_url = result.secure_url
+        console.log(req.file)
     }
 
     const county = await County.findByPk(county_id)
 
-    if(!County){
-        res.status(404).json({
+    if(!county){
+        return res.status(404).json({
             success:false,
             message:"County not found"
         })
     }
 
-    const ExistingProfile = await Profile.findOne({
+    const existingProfile = await Profile.findOne({
         where:{
             user_id:req.user.id
         }
     })
 
-     if (ExistingProfile) {
+     if (existingProfile) {
 
             return res.status(400).json({
 
@@ -55,7 +59,7 @@ exports.createProfile = async (req,res) => {
             user_id:req.user.id
         })
 
-        res.status(201).json({
+      return  res.status(201).json({
             success:true,
             message:"Profile created successfully",
             profile
@@ -63,7 +67,7 @@ exports.createProfile = async (req,res) => {
         
     } catch (error) {
 
-        res.status(500).json({message:error.message})
+       return res.status(500).json({message:error.message})
         
     }
     
@@ -102,7 +106,7 @@ exports.listProfiles = async (req,res) => {
             }
         })
 
-        res.status(200).json({
+       return res.status(200).json({
 
             success:true,
             totalItems:count,
@@ -116,7 +120,7 @@ exports.listProfiles = async (req,res) => {
         
     } catch (error) {
 
-        res.status(500).json({
+       return res.status(500).json({
             success:false,
             message:error.message
         })
@@ -132,7 +136,7 @@ exports.findProfileById = async (req,res) => {
            const profile = await Profile.findByPk(req.params.id)
 
            if(!profile){
-            res.status(404).json({
+           return  res.status(404).json({
                 success:false,
                 message:"Profile not  found"
             })
@@ -140,7 +144,7 @@ exports.findProfileById = async (req,res) => {
 
            
 
-           res.status(200).json({
+           return res.status(200).json({
             success:true,
             profile
             
@@ -149,7 +153,7 @@ exports.findProfileById = async (req,res) => {
         
     } catch (error) {
 
-        res.status(500).json({message:error.message})
+       return res.status(500).json({message:error.message})
         
     }
     
@@ -166,14 +170,16 @@ exports.editProfile = async (req,res) => {
         
         
         if(!profile){
-            res.status(404).json({message:"Profile not found!!!"})
+           return res.status(404).json({message:"Profile not found!!!"})
         }
 
         if(profile.user_id != req.user.id){
-            res.status(403).json({message:"Cannot edit profile"})
+            return res.status(403).json({message:"Cannot edit profile"})
         }
-        let avatar_url = null
+        
+         let avatar_url = null
         if(req.file){
+           
             const result = await uploadToCloudinary(req.file.buffer)
             avatar_url = result.secure_url
         }
@@ -186,7 +192,7 @@ exports.editProfile = async (req,res) => {
 
          profile.save()
 
-        res.status(200).json({
+       return res.status(200).json({
             success:true,
             message:"Profile updated successfully",
             data:profile
@@ -194,7 +200,7 @@ exports.editProfile = async (req,res) => {
         
     } catch (error) {
 
-        res.status(500).json({error:error.message})
+        return res.status(500).json({error:error.message})
         
     }
     
@@ -207,19 +213,19 @@ exports.deleteProfile = async (req,res) => {
         const profile = await Profile.findByPk(req.params.id)
 
         if(!profile){
-            res.status(404).json({message:"Profile not found"})
+           return res.status(404).json({message:"Profile not found"})
         }
 
-        if(req.user_id !=req.params.id){
-            res.status(403).json({message:"Can't delete Profile??"})
+        if(profile.user_id !==req.user.id){
+            return res.status(403).json({message:"Can't delete Profile??"})
         }
 
         await profile.destroy()
-        res.status(200).json({message:"Profile deleted sucessfully"})
+        return res.status(200).json({message:"Profile deleted sucessfully"})
         
     } catch (error) {
 
-        res.status(500).json({message:error.message})
+        return res.status(500).json({message:error.message})
         
     }
     

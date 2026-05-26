@@ -10,15 +10,13 @@ exports.uploadToCloudinary = (fileBuffer)=>{
     return new Promise((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream(
             {
-                folder:"images"
+                folder:"profiles"
             },
             (error, result)=>{
-                if(result){
-                    resolve(result)
-                }
-
                 if(error){
                     reject(error)
+                }else{
+                    resolve(result)
                 }
             }
         )
@@ -26,6 +24,6 @@ exports.uploadToCloudinary = (fileBuffer)=>{
 
         streamifier
         .createReadStream(fileBuffer)
-        .pipe
+        .pipe(stream)
     })
 }
