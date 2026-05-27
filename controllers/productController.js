@@ -187,6 +187,8 @@ exports.getProducts = async (req,res) => {
 }
 
 
+
+
 exports.editProduct = async (params) => {
 
     try {
@@ -197,7 +199,7 @@ exports.editProduct = async (params) => {
 
 
 
-        if(user_id !==req.user.id){
+        if(product.user_id !==req.user.id){
             return res.status(403).json({
                 success:false,
                 messsage:"Can't delete this"
@@ -233,6 +235,52 @@ exports.editProduct = async (params) => {
     } catch (error) {
 
         return res.status(500).json({
+            success:false,
+            message:error.message
+        })
+        
+    }
+    
+}
+
+
+
+
+exports.deleteProduct = async (req,res) => {
+
+    try {
+      const product = await Product.findByPk(req.params.id)
+
+      if(product.user_id !== req.user.id){
+
+        return res.status(403).json({
+            success:false,
+            message:"You have no ownership for this Product"
+        })
+
+        if(!product){
+            return res.status(404).json({
+                success:false,
+                message:"Product not fond!!!"
+            })
+        }
+
+
+        await product.destroy()
+
+        returnres.status(200).json({
+            success:true,
+            message:"Product deleted sucessfuly"
+        })
+
+      }
+
+
+
+        
+    } catch (error) {
+
+        return res.status(500).jsin({
             success:false,
             message:error.message
         })
