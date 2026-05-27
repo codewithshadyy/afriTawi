@@ -14,7 +14,16 @@ const Product = sequelize.define("Product", {
 
     price: {
         type: DataTypes.DECIMAL(10, 2),
-        allowNull: false
+        allowNull: false,
+        validate:{
+            isValidPrice(value){
+                
+            if(value <= 0){
+                throw new Error("Price should not less than 1")
+            }
+
+            }
+        }
     },
 
     stock: {
