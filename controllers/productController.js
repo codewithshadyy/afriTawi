@@ -189,13 +189,22 @@ exports.getProducts = async (req,res) => {
 
 
 
-exports.editProduct = async (params) => {
+exports.editProduct = async (req,res) => {
 
     try {
 
         const{name, description, price, stock, category_id} = req.body
 
         const product = await Product.findByPk(req.params.id)
+
+        
+
+    if(!product){
+            return res.status(404).json({
+                success:false,
+                message:"product not found"
+            })
+        }
 
 
 
@@ -205,13 +214,7 @@ exports.editProduct = async (params) => {
                 messsage:"Can't delete this"
             })
         }
-        if(!product){
-            return res.status(404).json({
-                success:false,
-                message:"product not found"
-            })
-        }
-
+        
         let image_url = null
         let image_public_id = null
         if(req.file){
@@ -230,6 +233,12 @@ exports.editProduct = async (params) => {
              image_url,
              image_public_id
 
+        })
+
+        return res.status(200).json({
+            success:true,
+            message:"updated successfully",
+            data:product
         })
         
     } catch (error) {
@@ -251,14 +260,10 @@ exports.deleteProduct = async (req,res) => {
     try {
       const product = await Product.findByPk(req.params.id)
 
-      if(product.user_id !== req.user.id){
 
-        return res.status(403).json({
-            success:false,
-            message:"You have no ownership for this Product"
-        })
 
-        if(!product){
+
+       if(!product){
             return res.status(404).json({
                 success:false,
                 message:"Product not fond!!!"
@@ -266,14 +271,25 @@ exports.deleteProduct = async (req,res) => {
         }
 
 
+      if(product.user_id != req.user.id){
+
+        return res.status(403).json({
+            success:false,
+            message:"You have no ownership for this Product"
+        })
+
+    }
+
+       
+
         await product.destroy()
 
-        returnres.status(200).json({
+        return res.status(200).json({
             success:true,
             message:"Product deleted sucessfuly"
         })
 
-      }
+      
 
 
 
