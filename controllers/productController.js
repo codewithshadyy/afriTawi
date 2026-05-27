@@ -7,8 +7,8 @@ exports.createProduct = async (req,res) => {
 
     try {
 
-        const {name, description, price, stock, Category_id} = req.body
-        const category = await Category.findByPk(Category_id)
+        const {name, description, price, stock, category_id} = req.body
+        const category = await Category.findByPk(category_id)
 
         if(!category){
             return res.status(404).json({
@@ -21,7 +21,7 @@ exports.createProduct = async (req,res) => {
         let image_public_id = null
 
         if(req.file){
-            let result= await uploadToCloudinary(req.file.buffer)
+            const result= await uploadToCloudinary(req.file.buffer)
             image_url = result.secure_url
             image_public_id = result.public_id
         }
@@ -31,7 +31,7 @@ exports.createProduct = async (req,res) => {
             description,
             price,
             stock,
-            Category_id,
+            category_id,
             image_url,
             image_public_id,
             user_id:req.user.id
