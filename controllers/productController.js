@@ -1,7 +1,10 @@
 const Product = require("../models/Product")
 const User = require("../models/User")
 const Category = require("../models/Category")
-const uploadToCloudinary = require("../utils/uploadToCloudinary")
+const {uploadToCloudinary} = require("../utils/uploadToCloudinary")
+
+const {where, Op} = require("sequelize")
+const { County } = require("../models")
 
 exports.createProduct = async (req,res) => {
 
@@ -57,6 +60,127 @@ exports.createProduct = async (req,res) => {
     } catch (error) {
         return res.status(500).json({message:error.message})
         
+    }
+    
+}
+
+
+exports.getProducts = async (req,res) => {
+
+    try {
+
+        const {search,county,category, page=1, limit=10} = req.query
+
+        const offset = (page-1) * limit
+
+
+        const whereClause = {}
+
+        if(search){
+            whereClause.name = {
+                [Op.iLike]:`%{search}%`
+            }
+        }
+
+        if(category){
+            whereClause.category_id = category
+        }
+
+       
+
+ const products =
+         await Product.findAndCountAll({
+
+            where: whereClause,
+
+            include:[
+
+               {
+                  model: User,
+
+                  attributes:[
+                     "id",
+                     "username"
+                  ],
+
+                  include:[
+
+                     {
+                        model: Profile,
+
+                        attributes:[
+                           "avatar_url"
+                        ],
+
+                        include:[
+
+                           {
+                              model: County,
+
+                              attributes:["name"],
+
+                              where: county
+                              ? {
+                                 name:{
+                                    [Op.iLike]:
+                                    `%${county}%`
+                                 }
+                              }
+                              : undefined
+
+                           }
+
+                        ]
+
+                     }
+
+                  ]
+
+               },
+
+               {
+                  model: Category,
+
+                  attributes:[
+                     "id",
+                     "name"
+                  ]
+               }
+
+            ],
+
+            limit: parseInt(limit),
+
+            offset: parseInt(offset)
+
+         })
+
+
+
+
+      res.status(200).json({
+
+         success:true,
+
+         total: products.count,
+
+         currentPage: parseInt(page),
+
+         totalPages:
+            Math.ceil(
+               products.count / limit
+            ),
+
+         products: products.rows
+
+      })
+
+        
+    } catch (error) {
+        return res.status(500).json({
+            success:false,
+            error:error.message
+        })
     }
     
 }
