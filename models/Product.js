@@ -26,6 +26,13 @@ const Product = sequelize.define("Product", {
         type: DataTypes.TEXT
     },
 
+
+    image_public_id:{
+   type:DataTypes.STRING
+}
+
+    ,
+
     is_available: {
         type: DataTypes.BOOLEAN,
         defaultValue: true
