@@ -1,5 +1,6 @@
 const Product = require("../models/Product")
 const User = require("../models/User")
+const Profile =require("../models/Profile")
 const Category = require("../models/Category")
 const {uploadToCloudinary} = require("../utils/uploadToCloudinary")
 
@@ -109,7 +110,7 @@ exports.getProducts = async (req,res) => {
                         model: Profile,
 
                         attributes:[
-                           "avatar_url"
+                           "avatar_url", "phone_number"
                         ],
 
                         include:[
@@ -181,6 +182,61 @@ exports.getProducts = async (req,res) => {
             success:false,
             error:error.message
         })
+    }
+    
+}
+
+
+exports.editProduct = async (params) => {
+
+    try {
+
+        const{name, description, price, stock, category_id} = req.body
+
+        const product = await Product.findByPk(req.params.id)
+
+
+
+        if(user_id !==req.user.id){
+            return res.status(403).json({
+                success:false,
+                messsage:"Can't delete this"
+            })
+        }
+        if(!product){
+            return res.status(404).json({
+                success:false,
+                message:"product not found"
+            })
+        }
+
+        let image_url = null
+        let image_public_id = null
+        if(req.file){
+            const result = await uploadToCloudinary(req.file.buffer)
+            image_url = result.secure_url
+            image_public_id = result.public_id
+        }
+
+        await product.update({
+            name,
+             description, 
+             price, 
+             stock, 
+             category_id,
+             user_id:req.user.id,
+             image_url,
+             image_public_id
+
+        })
+        
+    } catch (error) {
+
+        return res.status(500).json({
+            success:false,
+            message:error.message
+        })
+        
     }
     
 }

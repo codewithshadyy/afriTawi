@@ -7,9 +7,10 @@ const {validateProduct} = require("../middlewares/validators/productValidator.")
 const {protect} = require("../middlewares/protect")
 
 const {adminOnly, sellersOnly} = require("../middlewares/authorizeRole")
-const {createProduct} = require("../controllers/productController")
+const {createProduct, getProducts} = require("../controllers/productController")
 
 router.post("/add", protect, sellersOnly, upload.single("image"),validateProduct, createProduct)
+router.get("/",protect, getProducts)
 
 
 module.exports = router
