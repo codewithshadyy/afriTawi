@@ -4,6 +4,7 @@ const Profile = require("./Profile")
 const Product = require("./Product")
 const Category = require("./Category")
 const County = require("./County")
+const AuditLog = require("./AuditLog")
 
 
 
@@ -48,6 +49,17 @@ Category.hasMany(Product, {
 
 Product.belongsTo(Category, {
     foreignKey: "category_id"
+})
+
+
+User.hasMany(AuditLog, {
+    foreignKey:"user_id",
+    onDelete:"CASCADE"
+})
+
+
+AuditLog.belongsTo(User, {
+    foreignKey:"user_id"
 })
 
 
