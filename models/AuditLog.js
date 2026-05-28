@@ -15,7 +15,7 @@ const AuditLog = sequelize.define("AuditLog", {
     },
 
     details:{
-        type:DataTypes.INTEGER
+        type:DataTypes.TEXT
     }
 })
 

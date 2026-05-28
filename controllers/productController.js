@@ -47,9 +47,9 @@ exports.createProduct = async (req,res) => {
 
 
 
-        await logAction({
+          await logAction({
 
-        ser_id:req.user.id,
+        user_id:req.user.id,
 
         action:"PRODUCT_UPDATED",
 
@@ -60,6 +60,11 @@ exports.createProduct = async (req,res) => {
         details:`Updated product ${product.name}`
 
         }) 
+
+
+
+
+      
         return res.status(201).json({
             success:true,
             data:product

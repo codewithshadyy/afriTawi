@@ -1,5 +1,6 @@
 
 const AuditLog = require("../models/AuditLog")
+const User = require("../models/User")
 
 exports.getLogs = async (req,res) => {
 
@@ -8,7 +9,7 @@ exports.getLogs = async (req,res) => {
         const logs = await AuditLog.findAll({
             include:[
                 {
-                    model:"User",
+                    model:User,
                     attributes:["id", "username"]
                 }
             ],
@@ -26,7 +27,7 @@ exports.getLogs = async (req,res) => {
         
     } catch (error) {
 
-        return req.status(500).json({
+        return res.status(500).json({
             success:false,
             message:error.message
         })

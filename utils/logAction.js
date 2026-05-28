@@ -1,30 +1,27 @@
-const AuditLog = require("../models/AuditLog")
+const AuditLog =
+require("../models/AuditLog")
 
 
-exports.logAction = async ({
-    user_id,
-    action,
-    entity,
-    entity_id,
-    details
-}) => {
 
-    try {
+exports.logAction = async (data)=>{
 
-        await AuditLog.create({
+   try{
 
-        user_id,
-        action,
-        entity,
-        entity_id,
-        details
+      console.log("TRYING TO LOG:", data)
 
-        })
-        
-    } catch (error) {
+      const log =
+         await AuditLog.create(data)
 
-        console.log("Audit Log error", error.message)
-        
-    }
-    
+      console.log("LOG SUCCESS:", log.id)
+
+   }catch(error){
+
+      console.log(
+         "AUDIT LOG ERROR:"
+      )
+
+      console.log(error)
+
+   }
+
 }
