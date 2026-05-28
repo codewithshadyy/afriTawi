@@ -179,6 +179,22 @@ exports.getProducts = async (req,res) => {
 
 
 
+          await logAction({
+
+        user_id:req.user.id,
+
+        action:"PRODUCT_ SEARCHED",
+
+        entity:"Product",
+
+        entity_id:product.id,
+
+        details:`Searched ${product.name}`
+
+        })
+
+
+
 
       res.status(200).json({
 
@@ -256,6 +272,24 @@ exports.editProduct = async (req,res) => {
 
         })
 
+
+
+
+          await logAction({
+
+        user_id:req.user.id,
+
+        action:"PRODUCT_ EDITED",
+
+        entity:"Product",
+
+        entity_id:product.id,
+
+        details:`Edited product ${product.name}`
+
+        })
+
+
         return res.status(200).json({
             success:true,
             message:"updated successfully",
@@ -304,6 +338,23 @@ exports.deleteProduct = async (req,res) => {
        
 
         await product.destroy()
+
+
+
+
+          await logAction({
+
+        user_id:req.user.id,
+
+        action:"PRODUCT_ DELETED",
+
+        entity:"Product",
+
+        entity_id:product.id,
+
+        details:`Deleted product ${product.name}`
+
+        })
 
         return res.status(200).json({
             success:true,
