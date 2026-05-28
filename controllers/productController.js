@@ -51,13 +51,13 @@ exports.createProduct = async (req,res) => {
 
         user_id:req.user.id,
 
-        action:"PRODUCT_UPDATED",
+        action:"PRODUCT_ CREATED",
 
         entity:"Product",
 
         entity_id:product.id,
 
-        details:`Updated product ${product.name}`
+        details:`Created product ${product.name}`
 
         }) 
 
