@@ -3,6 +3,7 @@ const User = require("../models/User")
 const Profile =require("../models/Profile")
 const Category = require("../models/Category")
 const {uploadToCloudinary} = require("../utils/uploadToCloudinary")
+const { logAction } = require("../utils/logAction")
 
 const {where, Op} = require("sequelize")
 const { County } = require("../models")
@@ -44,6 +45,21 @@ exports.createProduct = async (req,res) => {
 
         })
 
+
+
+        await logAction({
+
+        ser_id:req.user.id,
+
+        action:"PRODUCT_UPDATED",
+
+        entity:"Product",
+
+        entity_id:product.id,
+
+        details:`Updated product ${product.name}`
+
+        }) 
         return res.status(201).json({
             success:true,
             data:product

@@ -1,7 +1,7 @@
 const AuditLog = require("../models/AuditLog")
 
 
-exports.createLog = async ({
+exports.logAction = async ({
     user_id,
     action,
     entity,
