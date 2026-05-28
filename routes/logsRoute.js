@@ -4,7 +4,7 @@ const{getLogs} = require("../controllers/logController")
 const {protect} = require("../middlewares/protect")
 const {adminOnly, sellersOnly} = require("../middlewares/authorizeRole")
 
-router.get("/logs", protect, getLogs)
+router.get("/", protect, getLogs)
 
 
 
