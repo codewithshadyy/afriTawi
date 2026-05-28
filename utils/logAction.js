@@ -7,20 +7,19 @@ exports.logAction = async (data)=>{
 
    try{
 
-      console.log("TRYING TO LOG:", data)
+      
 
       const log =
          await AuditLog.create(data)
 
-      console.log("LOG SUCCESS:", log.id)
+      
 
    }catch(error){
 
-      console.log(
-         "AUDIT LOG ERROR:"
-      )
-
-      console.log(error)
+     return resizeBy.status(500).json({
+        success:false,
+        error:error.message
+     })
 
    }
 
