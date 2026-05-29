@@ -9,6 +9,7 @@ const categoryRoutes = require("./routes/categoryRoutes")
 const profileRoutes = require("./routes/profileRoutes")
 const productRoutes = require("./routes/productRoutes")
 const logsRoutes = require("./routes/logsRoute")
+const sellerRoutes = require("./routes/userRoutes")
 
 const dotenv = require("dotenv")
 
@@ -35,6 +36,7 @@ sequelize.sync({alter:true})
     app.use("/api/v1/profiles", profileRoutes)
     app.use("/api/v1/products", productRoutes)
     app.use("/api/v1/logs", logsRoutes)
+    app.use("/api/v1/portfolio", sellerRoutes)
 
 
 
