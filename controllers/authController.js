@@ -73,7 +73,7 @@ exports.signUp = async (req,res) => {
    
 
 
-    res.status(201).json({
+   return  res.status(201).json({
 
     success:true,
 
@@ -83,7 +83,7 @@ exports.signUp = async (req,res) => {
         
     } catch (error) {
 
-        res.status(500).json({
+      return   res.status(500).json({
             success:false,
             message:error.message,
            
@@ -154,7 +154,7 @@ exports.verifyEmail = async(req,res) =>{
         
     } catch (error) {
 
-        res.status(500).json({
+      return  res.status(500).json({
             success:false,
             message:error.message
         }
@@ -207,7 +207,7 @@ exports.signIn = async (req,res) => {
         user.refresh_token = refreshToken
         await user.save()
 
-        res.status(200).json({
+        return res.status(200).json({
             message: `welcome back ${user.username}`,
             token,
             refreshToken
@@ -223,7 +223,7 @@ exports.signIn = async (req,res) => {
         
     } catch (error) {
 
-          res.status(500).json({
+        return  res.status(500).json({
             success:false,
             message:error.message,
            
@@ -258,7 +258,7 @@ exports.logout = async (req,res) => {
 
 
 
-        res.status(200).json({
+       return  res.status(200).json({
 
             success:true,
 
@@ -271,7 +271,7 @@ exports.logout = async (req,res) => {
         
     } catch (error) {
 
-        res.status(500).json({
+       return  res.status(500).json({
             success:false,
             message:message.error
         })
@@ -292,7 +292,7 @@ exports.forgotPassword = async (req,res) => {
         })
 
         if(!user){
-            res.status(404).json({
+           return  res.status(404).json({
                 success:false,
                 message:"Invalid email check again and try"
             })
@@ -330,7 +330,7 @@ exports.forgotPassword = async (req,res) => {
         )
 
 
-            res.status(200).json({
+            return res.status(200).json({
 
             success: true,
 
@@ -341,7 +341,7 @@ exports.forgotPassword = async (req,res) => {
 
         
     } catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
             success:false,
             message:error.message
         })  
@@ -420,7 +420,7 @@ exports.resetPassword = async (req,res) => {
 
 
 
-        res.status(200).json({
+        return res.status(200).json({
 
             success: true,
 
@@ -435,7 +435,7 @@ exports.resetPassword = async (req,res) => {
         
     } catch (error) {
 
-          res.status(500).json({
+         return  res.status(500).json({
             success:false,
             message:error.message
         })
@@ -490,7 +490,7 @@ exports.viewUsers = async (req,res) => {
 
         
     } catch (error) {
-        res.status(500).json({message:error.message})
+        return res.status(500).json({message:error.message})
         
     }
     
