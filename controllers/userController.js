@@ -41,6 +41,7 @@ exports.getSellerProfile = async (req,res) => {
 
                 {
                     model:Product,
+                    as:"Products",
 
                     include:[
                         {
@@ -68,7 +69,10 @@ exports.getSellerProfile = async (req,res) => {
 
         }
 
-        const totalProducts = seller.Product.length
+
+
+        
+        const totalProducts = seller.Products.length
 
         const dateJoined = new Date(seller.createdAt)
 
