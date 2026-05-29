@@ -16,7 +16,8 @@ exports.getSellerProfile = async (req,res) => {
             attributes:[
                 "id",
                 "username",
-                "email"
+                "email",
+                "createdAt"
             ],
 
 
@@ -42,6 +43,8 @@ exports.getSellerProfile = async (req,res) => {
                 {
                     model:Product,
                     as:"Products",
+
+        
 
                     include:[
                         {
@@ -104,8 +107,10 @@ exports.getSellerProfile = async (req,res) => {
             county:
                seller.Profile?.County?.name,
 
-            total_products:
-               totalProducts
+        
+
+            total_products:totalProducts,
+            products:seller.Products
             }
         })
 
