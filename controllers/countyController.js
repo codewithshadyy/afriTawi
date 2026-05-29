@@ -15,7 +15,7 @@ exports.createCounty = async (req,res) => {
        })
 
        if(countyExists){
-        res.status(400).json({message:`Sorry ${name} already created`})
+       return res.status(400).json({message:`Sorry ${name} already created`})
        }
 
 
@@ -25,7 +25,7 @@ exports.createCounty = async (req,res) => {
         code:"0" +`${code}`
        })
 
-       res.status(201).json({
+      return res.status(201).json({
         message:`county ${county.name} created`,
         county
        })
@@ -33,7 +33,7 @@ exports.createCounty = async (req,res) => {
         
     } catch (error) {
 
-        res.status(500).json({message:error.message})
+       return res.status(500).json({message:error.message})
         
     }
     
@@ -47,7 +47,7 @@ exports.editCounty = async (req,res) => {
          const county= await County.findByPk(req.params.id)
 
          if(!county){
-            res.status(404).json({message:"County not found"})
+           return res.status(404).json({message:"County not found"})
          }
 
          await county.update({
@@ -56,7 +56,7 @@ exports.editCounty = async (req,res) => {
          })
          await county.save()
        
-         res.status(200).json({
+        return res.status(200).json({
             success:true,
             data:county
             
@@ -65,7 +65,7 @@ exports.editCounty = async (req,res) => {
         
     } catch (error) {
 
-        res.status(500).json({message:error.message})
+        return res.status(500).json({message:error.message})
         
     }
     
@@ -77,12 +77,12 @@ exports.deleteCounty = async (req,res) => {
     try {
          const county = await County.findByPk(req.params.id)
          if(!county){
-            res.status(404).json({message:"county not found"})
+           return res.status(404).json({message:"county not found"})
          }
 
          await county.destroy()
 
-         res.json(204).json({
+        return res.json(204).json({
             success:true,
             message:`county ${county.name} deleted`
          })
@@ -93,7 +93,7 @@ exports.deleteCounty = async (req,res) => {
         
     } catch (error) {
 
-        res.status(500).json({
+       return  res.status(500).json({
             success:false,
             message:error.message
         })
@@ -121,7 +121,7 @@ exports.getCounty = async (req,res) => {
 
 
 
-          res.status(200).json({
+         return  res.status(200).json({
             success: true,
             totalItems: count,
             totalPages: Math.ceil(count / limit),
@@ -132,7 +132,7 @@ exports.getCounty = async (req,res) => {
         
     } catch (error) {
 
-        res.status(500).json({
+       return  res.status(500).json({
             success:false,
             message:error.message
         })
