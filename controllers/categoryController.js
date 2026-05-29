@@ -20,11 +20,11 @@ exports.createCategory = async (req,res) => {
         name
        })
 
-       res.status(201).json({message:`Category ${category.name} created successfully`})
+      return res.status(201).json({message:`Category ${category.name} created successfully`})
         
     } catch (error) {
 
-        res.status(500).json({message:error.message})
+       return res.status(500).json({message:error.message})
         
     }
     
@@ -56,7 +56,7 @@ exports.listCategory = async (req,res) => {
         
     } catch (error) {
 
-        res.status(500).json({message:error.message})
+       return  res.status(500).json({message:error.message})
         
     }
     
@@ -73,14 +73,14 @@ exports.findCategoryById = async (req,res) => {
             res.status(404).json({message:"Category not found"})
         }
 
-        res.status(200).json({
+       return res.status(200).json({
             success:true,
             data:category
         })
         
     } catch (error) {
 
-        res.status(500).json({message:error.message})
+       return  res.status(500).json({message:error.message})
         
     }
 }
@@ -102,11 +102,11 @@ exports.editCategory = async (req,res) => {
 
      await category.save()
 
-     res.status(200).json({message:`Category ${category.name} editted successfully on ${category.createdAt}`})
+     return res.status(200).json({message:`Category ${category.name} editted successfully on ${category.createdAt}`})
         
     } catch (error) {
 
-        res.status(500).json({message:error.message})
+      return  res.status(500).json({message:error.message})
         
     }
     
@@ -124,11 +124,11 @@ exports.deleteCategory = async (req,res) => {
          await category.destroy()
 
 
-         res.json(200).json({message:"Category deleted successfully"})
+        return  res.json(200).json({message:"Category deleted successfully"})
         
     } catch (error) {
 
-        res.status(500).json({message:error.message})
+       return res.status(500).json({message:error.message})
         
     }
     
