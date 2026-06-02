@@ -22,7 +22,7 @@ const {adminOnly, sellerOnly} = require("../middlewares/authorizeRole")
 
 /**
  * @swagger
- * /api/auth/signup:
+ * /api/v1/auth/signup:
  *   post:
  *     summary: Register new user
  *     tags: [Authentication]
@@ -49,7 +49,7 @@ router.post("/signUp",validateSignUp, signUp)
 
 /**
  * @swagger
- * /api/auth/login:
+ * /api/v1/auth/login:
  *   post:
  *     summary: Login user
  *     tags: [Authentication]
@@ -74,7 +74,7 @@ router.post("/signIn", signIn)
 
 /**
  * @swagger
- * /api/auth/verify-email/{token}:
+ * /api/v1/auth/verify-email/{token}:
  *   get:
  *     summary: Verify email
  *     tags: [Authentication]
@@ -96,7 +96,7 @@ router.get("/verify/:token", verifyEmail)
 
 /**
  * @swagger
- * /api/auth/logout:
+ * /api/v1/auth/logout:
  *   post:
  *     summary: Logout user
  *     tags: [Authentication]
@@ -113,7 +113,7 @@ router.post("/logout",protect, logout)
 
 /**
  * @swagger
- * /api/auth/forgot-password:
+ * /api/v1/auth/forgot-password:
  *   post:
  *     summary: Forgot password
  *     tags: [Authentication]
@@ -137,7 +137,7 @@ router.post("/forgot-password", forgotPassword)
 
 /**
  * @swagger
- * /api/auth/reset-password/{token}:
+ * /api/v1/auth/reset-password/{token}:
  *   put:
  *     summary: Reset password
  *     tags: [Authentication]
