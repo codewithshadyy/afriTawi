@@ -1,4 +1,14 @@
 
+
+/**
+ * @swagger
+ * tags:
+ *   name: Category
+ *   description: Category management routes
+ */
+
+
+
 const express = require("express")
 const router = express.Router()
 const {createCategory, listCategory,findCategoryById, editCategory, deleteCategory} = require("../controllers/categoryController")

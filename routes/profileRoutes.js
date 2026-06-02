@@ -1,4 +1,12 @@
 
+
+/**
+ * @swagger
+ * tags:
+ *   name: Profiles
+ *   description: Profiles management routes
+ */
+
 const express = require("express")
 const router = express.Router()
 const {  createProfile, listProfiles, findProfileById, editProfile, deleteProfile } = require("../controllers/profileController")

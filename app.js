@@ -11,6 +11,15 @@ const productRoutes = require("./routes/productRoutes")
 const logsRoutes = require("./routes/logsRoute")
 const sellerRoutes = require("./routes/userRoutes")
 
+
+// documentation
+
+
+const swaggerUi = require("swagger-ui-express")
+const swaggerSpec = require("./config/swagger")
+
+
+
 const dotenv = require("dotenv")
 
 dotenv.config()
@@ -37,6 +46,13 @@ sequelize.sync({alter:true})
     app.use("/api/v1/products", productRoutes)
     app.use("/api/v1/logs", logsRoutes)
     app.use("/api/v1/portfolio", sellerRoutes)
+
+
+    app.use(
+    "/api/v1/api-docs",
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerSpec)
+)
 
 
 

@@ -1,3 +1,12 @@
+
+/**
+ * @swagger
+ * tags:
+ *   name: Logs
+ *   description: Logs management routes
+ */
+
+
 const express = require("express")
 const router = express.Router()
 const{getLogs} = require("../controllers/logController")

@@ -1,4 +1,13 @@
 
+/**
+ * @swagger
+ * tags:
+ *   name: County
+ *   description: County management routes
+ */
+
+
+
 const express = require("express")
 const router= express.Router()
 const {createCounty, editCounty, deleteCounty,getCounty } =  require("../controllers/countyController")

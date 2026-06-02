@@ -1,4 +1,12 @@
 
+
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: User management routes
+ */
+
 const express = require("express")
 const router = express.Router()
 const {getSellerProfile} = require("../controllers/userController")
