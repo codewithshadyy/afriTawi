@@ -287,13 +287,9 @@ Supported:
 
 # Author
 
-AfriTawi API built by a passionate Kenyan software developer focused on empowering local creatives through technology.
+AfriTawi API built by a passionate Kenyan software developer shadrack kipkoech(codewithshadyy) focused on empowering local creatives through technology.
 
 ---
 
-# License
 
-MIT License
-
-```
 ```
