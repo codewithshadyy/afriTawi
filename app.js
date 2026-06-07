@@ -3,6 +3,8 @@ const pool  = require("./config/db")
 const app = express()
 const sequelize = require("./config/db")
 const models = require("./models/index")
+
+// routes
 const UserRoutes = require("./routes/auth")
 const countyRoutes = require("./routes/county")
 const categoryRoutes = require("./routes/category")
@@ -12,6 +14,18 @@ const logsRoutes = require("./routes/logs")
 const sellerRoutes = require("./routes/users")
 
 
+// utils
+
+const {accessLogStream} = require("./utils/logs/userLogs")
+
+
+// security packages
+
+const morgan = require("morgan")
+
+app.use(morgan("combined",{
+    stream:accessLogStream
+}))
 
 // documentation
 
@@ -22,6 +36,7 @@ const swaggerSpec = require("./config/swagger")
 
 
 const dotenv = require("dotenv")
+const { accessLogStream } = require("./utils/logs/userLogs")
 
 dotenv.config()
 
