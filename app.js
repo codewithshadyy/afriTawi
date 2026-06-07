@@ -15,6 +15,14 @@ const sellerRoutes = require("./routes/users")
 
 
 
+// security packages
+
+const morgan = require("morgan")
+const cors = require("cors")
+const helmet = require("helmet")
+
+
+
 const dotenv = require("dotenv")
 
 
@@ -26,13 +34,26 @@ dotenv.config()
 const {accessLogStream} = require("./utils/logs/userLogs")
 
 
-// security packages
 
-const morgan = require("morgan")
-
+// morgan
 app.use(morgan("combined",{
     stream:accessLogStream
 }))
+
+// helmet
+
+app.use(helmet.contentSecurityPolicy({
+    directives:{
+        defaultSrc:["'self'"],
+        scriptSrc:["'self'", "'trusted-cdn.com'"]
+    }
+}
+))
+
+
+
+
+
 
 // documentation
 
