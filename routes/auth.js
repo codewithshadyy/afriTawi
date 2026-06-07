@@ -18,6 +18,7 @@ const {signUp,signIn, verifyEmail, logout, forgotPassword, resetPassword, viewUs
 const {validateSignUp,validatePasswordReset} = require("../middlewares/validators/authValidator")
 const {protect} = require("../middlewares/protect")
 const {adminOnly, sellerOnly} = require("../middlewares/authorizeRole")
+const {limiter} = require("../utils/rateLImiter")
 
 
 /**
@@ -69,7 +70,7 @@ router.post("/signUp",validateSignUp, signUp)
  *         description: Login successful
  */
 
-router.post("/signIn", signIn)
+router.post("/signIn",limiter, signIn)
 
 
 /**
