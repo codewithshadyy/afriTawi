@@ -14,6 +14,13 @@ const logsRoutes = require("./routes/logs")
 const sellerRoutes = require("./routes/users")
 
 
+
+const dotenv = require("dotenv")
+
+
+dotenv.config()
+
+
 // utils
 
 const {accessLogStream} = require("./utils/logs/userLogs")
@@ -34,11 +41,6 @@ const swaggerUi = require("swagger-ui-express")
 const swaggerSpec = require("./config/swagger")
 
 
-
-const dotenv = require("dotenv")
-const { accessLogStream } = require("./utils/logs/userLogs")
-
-dotenv.config()
 
 
 app.use(express.json())
