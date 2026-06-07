@@ -50,6 +50,10 @@ app.use(helmet.contentSecurityPolicy({
 }
 ))
 
+// cors
+
+app.use(cors())
+
 
 
 
